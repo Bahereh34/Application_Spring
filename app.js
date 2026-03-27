@@ -41,6 +41,12 @@ const kssSlider = document.getElementById("kssScore");
 const kssValue = document.getElementById("kssValue");
 const kssLabel = document.getElementById("kssLabel");
 const kssEmoji = document.getElementById("kssEmoji");
+const cloSlider = document.getElementById("cloLevel");
+const cloValue = document.getElementById("cloValue");
+const cloLabel = document.getElementById("cloLabel");
+const cloEmoji = document.getElementById("cloEmoji");
+const clothingActivity = document.getElementById("clothingActivity");
+const activityPosture = document.getElementById("activityPosture");
 const moodButtons = document.querySelectorAll(".mood-btn");
 const moodInput = document.getElementById("mood");
 const chatWindow = document.getElementById("chatWindow");
@@ -80,6 +86,22 @@ function initializeApp() {
   // KSS Slider
   kssSlider.addEventListener("input", updateKSSDisplay);
 
+  // CLO Slider
+  cloSlider.addEventListener("input", () => {
+    updateCLODisplay();
+    localStorage.setItem("cloLevel", cloSlider.value);
+  });
+
+  // Clothing activity notes
+  clothingActivity.addEventListener("input", () => {
+    localStorage.setItem("clothingActivity", clothingActivity.value);
+  });
+
+  // Activity posture notes
+  activityPosture.addEventListener("input", () => {
+    localStorage.setItem("activityPosture", activityPosture.value);
+  });
+
   // Mood Buttons
   moodButtons.forEach((btn) => {
     btn.addEventListener("click", handleMoodClick);
@@ -100,9 +122,26 @@ function initializeApp() {
 
   // Chat Functionality
   chatMinimizeBtn.addEventListener("click", minimizeChat);
-  chatToggleBtn.addEventListener("click", maximizeChat);
+  chatToggleBtn.addEventListener("click", toggleChat);
   chatCloseWindowBtn.addEventListener("click", closeChat);
   chatForm.addEventListener("submit", handleChatSubmit);
+
+  // Load localStorage state if any
+  const savedCLO = localStorage.getItem("cloLevel");
+  if (savedCLO) {
+    cloSlider.value = savedCLO;
+    updateCLODisplay();
+  }
+
+  const savedClothingActivity = localStorage.getItem("clothingActivity");
+  if (savedClothingActivity) {
+    clothingActivity.value = savedClothingActivity;
+  }
+
+  const savedActivityPosture = localStorage.getItem("activityPosture");
+  if (savedActivityPosture) {
+    activityPosture.value = savedActivityPosture;
+  }
 
   // Initial Updates
   updateThermalDisplay();
@@ -110,6 +149,7 @@ function initializeApp() {
   updateConcentrationDisplay();
   updateProductivityDisplay();
   updateKSSDisplay();
+  updateCLODisplay();
   satisfactionSliders.forEach(updateSatisfactionDisplay);
   wellbeingSliders.forEach(updateWellbeingDisplay);
   updateProgressBar();
@@ -240,6 +280,28 @@ function updateKSSDisplay() {
   kssSlider.style.backgroundSize = "100% 100%";
 }
 
+function updateCLODisplay() {
+  const value = parseFloat(cloSlider.value);
+  cloValue.textContent = value.toFixed(1);
+
+  let label = "";
+
+  if (value <= 1.0) {
+    label = "Light";
+  } else if (value <= 2.0) {
+    label = "Medium";
+  } else if (value <= 3.0) {
+    label = "Heavy";
+  } else {
+    label = "Very Heavy";
+  }
+
+  cloLabel.textContent = label;
+  cloEmoji.textContent = "🧵";
+  localStorage.setItem("cloLevel", cloSlider.value);
+  updateProgressBar();
+}
+
 function getKSSEmoji(value) {
   const emojis = ["", "😃", "😊", "🙂", "😐", "😑", "😴", "😪", "😴", "😵"];
   return emojis[value] || "😐";
@@ -300,7 +362,7 @@ function updateWellbeingDisplay() {
 // Progress Bar Update
 // ====================
 function updateProgressBar() {
-  const totalFields = 50;
+  const totalFields = 52;
   let filledFields = 0;
 
   // Check if essential fields are filled
@@ -311,6 +373,9 @@ function updateProgressBar() {
   if (num("concentration") !== undefined) filledFields++;
   if (num("productivity") !== undefined) filledFields++;
   if (num("kssScore") !== undefined) filledFields++;
+  if (num("cloLevel") !== undefined) filledFields++;
+  if (txt("clothingActivity")) filledFields++;
+  if (txt("activityPosture")) filledFields++;
   if (txt("satOverall")) filledFields++;
   if (txt("who1")) filledFields++;
   if (txt("watchBrand")) filledFields++;
@@ -367,6 +432,9 @@ async function handleFormSubmit(e) {
 
     // Energy Level
     kss_score: num("kssScore") || null,
+    clo_level: parseFloat(document.getElementById("cloLevel").value) || null,
+    clothing_activity: txt("clothingActivity") || null,
+    activity_posture: txt("activityPosture") || null,
 
     // Symptoms
     symptom_wheezing: checked("symptom01"),
@@ -438,20 +506,28 @@ async function handleFormSubmit(e) {
 // ====================
 function minimizeChat() {
   chatWindow.style.display = "none";
-  chatToggleBtn.style.display = "block";
+  chatToggleBtn.style.display = "flex";
   isChatMinimized = true;
 }
 
-function maximizeChat() {
-  chatWindow.style.display = "flex";
-  chatToggleBtn.style.display = "none";
-  isChatMinimized = false;
-  chatInput.focus();
+function toggleChat() {
+  const currentDisplay = window.getComputedStyle(chatWindow).display;
+  if (currentDisplay === "none") {
+    chatWindow.style.display = "flex";
+    chatToggleBtn.style.display = "none";
+    isChatMinimized = false;
+    setTimeout(() => chatInput.focus(), 100); // Delay focus to ensure element is visible
+  } else {
+    chatWindow.style.display = "none";
+    chatToggleBtn.style.display = "flex";
+    isChatMinimized = true;
+  }
 }
 
 function closeChat() {
   chatWindow.style.display = "none";
-  chatToggleBtn.style.display = "none";
+  chatToggleBtn.style.display = "flex";
+  isChatMinimized = true;
 }
 
 function handleChatSubmit(e) {
