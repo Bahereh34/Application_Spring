@@ -57,6 +57,10 @@
               <span class="label">Hot</span>
             </div>
           </div>
+          <div class="slider-range-labels">
+            <span class="min-label">-3</span>
+            <span class="max-label">+3</span>
+          </div>
           <input type="range" id="thermalSensation" min="-3" max="3" value="0" step="1" class="thermal-slider" />
           <div class="thermal-display">
             <div class="thermal-value" id="thermalValue">0</div>
@@ -99,6 +103,10 @@
               <span class="label">Severe</span>
             </div>
           </div>
+          <div class="slider-range-labels">
+            <span class="min-label">1</span>
+            <span class="max-label">5</span>
+          </div>
           <input type="range" id="glareRating" min="1" max="5" value="2" step="1" class="glare-slider" />
           <div class="glare-display">
             <div class="glare-value" id="glareValue">2</div>
@@ -139,6 +147,10 @@
         <div class="form-card">
           <h3>⚡ Your Performance</h3>
           <label for="concentration">Concentration (0–10)</label>
+          <div class="slider-range-labels">
+            <span class="min-label">0</span>
+            <span class="max-label">10</span>
+          </div>
           <div class="progress-container">
             <input type="range" id="concentration" min="0" max="10" value="5" step="1" class="progress-slider" />
             <div class="progress-emoji" id="concentrationEmoji">😐</div>
@@ -149,6 +161,10 @@
           </div>
 
           <label for="productivity">Productivity (0–10)</label>
+          <div class="slider-range-labels">
+            <span class="min-label">0</span>
+            <span class="max-label">10</span>
+          </div>
           <div class="progress-container">
             <input type="range" id="productivity" min="0" max="10" value="5" step="1" class="progress-slider" />
             <div class="progress-emoji" id="productivityEmoji">😐</div>
@@ -163,6 +179,10 @@
         <div class="form-card">
           <h3>🔋 Your Energy Level (KSS)</h3>
           <label for="kssScore">KSS score (1–9)</label>
+          <div class="slider-range-labels">
+            <span class="min-label">1</span>
+            <span class="max-label">9</span>
+          </div>
           <div class="progress-container">
             <input type="range" id="kssScore" min="1" max="9" value="3" step="1" class="kss-slider" />
             <div class="progress-emoji" id="kssEmoji">😃</div>
@@ -171,6 +191,27 @@
             <div class="progress-value" id="kssValue">3</div>
             <div class="progress-label" id="kssLabel">Alert</div>
           </div>
+        </div>
+
+        <!-- Section 6b: Clothing Level -->
+        <div class="form-card">
+          <h3>🧵 Clothing Level</h3>
+          <div class="slider-range-labels">
+            <span class="min-label">0.5</span>
+            <span class="max-label">3.5</span>
+          </div>
+          <div class="progress-container">
+            <input type="range" id="cloLevel" min="0.5" max="3.5" step="0.1" value="1.0" />
+            <div class="progress-emoji" id="cloEmoji">🧵</div>
+          </div>
+          <div class="progress-display">
+            <div class="progress-value" id="cloValue">1.0</div>
+            <div class="progress-label" id="cloLabel">Light</div>
+          </div>
+          <label for="clothingActivity">What are you wearing?</label>
+          <textarea id="clothingActivity" rows="2" placeholder="e.g., long-sleeve shirt, pants, shoes"></textarea>
+          <label for="activityPosture">🏃 Activity / Posture<br>What are you doing right now?</label>
+          <textarea id="activityPosture" rows="2" placeholder="e.g., sitting at desk, standing, walking"></textarea>
         </div>
 
         <!-- Section 7: Symptoms -->
@@ -218,36 +259,64 @@
           <div class="satisfaction-grid">
             <div class="sat-item">
               <label for="satOverall">Overall environment</label>
+              <div class="slider-range-labels">
+                <span class="min-label">1</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="satOverall" min="1" max="5" value="3" step="1">
               <span class="sat-value" id="satOverallVal">3</span>
             </div>
             <div class="sat-item">
               <label for="satPrivacy">Privacy</label>
+              <div class="slider-range-labels">
+                <span class="min-label">1</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="satPrivacy" min="1" max="5" value="3" step="1">
               <span class="sat-value" id="satPrivacyVal">3</span>
             </div>
             <div class="sat-item">
               <label for="satLayout">Layout & organization</label>
+              <div class="slider-range-labels">
+                <span class="min-label">1</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="satLayout" min="1" max="5" value="3" step="1">
               <span class="sat-value" id="satLayoutVal">3</span>
             </div>
             <div class="sat-item">
               <label for="satAppearance">Color / decoration</label>
+              <div class="slider-range-labels">
+                <span class="min-label">1</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="satAppearance" min="1" max="5" value="3" step="1">
               <span class="sat-value" id="satAppearanceVal">3</span>
             </div>
             <div class="sat-item">
               <label for="satAirmove">Air movement</label>
+              <div class="slider-range-labels">
+                <span class="min-label">1</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="satAirmove" min="1" max="5" value="3" step="1">
               <span class="sat-value" id="satAirmoveVal">3</span>
             </div>
             <div class="sat-item">
               <label for="satClean">Cleanliness</label>
+              <div class="slider-range-labels">
+                <span class="min-label">1</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="satClean" min="1" max="5" value="3" step="1">
               <span class="sat-value" id="satCleanVal">3</span>
             </div>
             <div class="sat-item">
               <label for="satView">Outdoor view</label>
+              <div class="slider-range-labels">
+                <span class="min-label">1</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="satView" min="1" max="5" value="3" step="1">
               <span class="sat-value" id="satViewVal">3</span>
             </div>
@@ -263,26 +332,46 @@
           <div class="wellbeing-grid">
             <div class="wb-item">
               <label for="who1">Cheerful & in good spirits</label>
+              <div class="slider-range-labels">
+                <span class="min-label">0</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="who1" min="0" max="5" value="3" step="1">
               <span class="wb-value" id="who1Val">3</span>
             </div>
             <div class="wb-item">
               <label for="who2">Calm and relaxed</label>
+              <div class="slider-range-labels">
+                <span class="min-label">0</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="who2" min="0" max="5" value="3" step="1">
               <span class="wb-value" id="who2Val">3</span>
             </div>
             <div class="wb-item">
               <label for="who3">Active and vigorous</label>
+              <div class="slider-range-labels">
+                <span class="min-label">0</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="who3" min="0" max="5" value="3" step="1">
               <span class="wb-value" id="who3Val">3</span>
             </div>
             <div class="wb-item">
               <label for="who4">Woke up feeling fresh</label>
+              <div class="slider-range-labels">
+                <span class="min-label">0</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="who4" min="0" max="5" value="3" step="1">
               <span class="wb-value" id="who4Val">3</span>
             </div>
             <div class="wb-item">
               <label for="who5">Life filled with interesting things</label>
+              <div class="slider-range-labels">
+                <span class="min-label">0</span>
+                <span class="max-label">5</span>
+              </div>
               <input type="range" id="who5" min="0" max="5" value="3" step="1">
               <span class="wb-value" id="who5Val">3</span>
             </div>
@@ -315,18 +404,40 @@
           <input type="number" id="hrvMs" min="0" max="300" value="50" step="1" />
 
           <label for="stressLevel">Stress level (0–100)</label>
+          <div class="slider-range-labels">
+            <span class="min-label">0</span>
+            <span class="max-label">100</span>
+          </div>
           <input type="range" id="stressLevel" min="0" max="100" value="25" step="1" />
 
           <label for="wristTempDelta">Wrist temperature change (°C)</label>
           <input type="number" id="wristTempDelta" min="-5" max="5" value="0" step="0.1" />
 
           <label for="sleepHours">Sleep last night (hours)</label>
+          <div class="slider-range-labels">
+            <span class="min-label">0</span>
+            <span class="max-label">12</span>
+          </div>
           <input type="range" id="sleepHours" min="0" max="12" value="7" step="0.5" />
         </div>
 
         <!-- Submit Button -->
         <div class="submit-container">
           <button type="submit" class="survey-submit">Submit Survey</button>
+        </div>
+
+        <!-- Section 10: Voice Recording -->
+        <div class="form-card">
+          <h3>🎤 Voice Feedback (Optional)</h3>
+          <p>Record a short audio message about your comfort experience.</p>
+          <div class="voice-controls">
+            <button type="button" id="startRecording" class="voice-btn">🎙️ Start Recording</button>
+            <button type="button" id="stopRecording" class="voice-btn" disabled>⏹️ Stop Recording</button>
+            <button type="button" id="playRecording" class="voice-btn" disabled>▶️ Play Recording</button>
+          </div>
+          <audio id="audioPlayback" controls style="display: none;"></audio>
+          <label for="voiceNotes">Voice notes (optional text alternative)</label>
+          <textarea id="voiceNotes" rows="2" placeholder="e.g. verbal feedback summary"></textarea>
         </div>
       </form>
     </main>
