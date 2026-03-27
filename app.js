@@ -47,8 +47,18 @@ const cloLabel = document.getElementById("cloLabel");
 const cloEmoji = document.getElementById("cloEmoji");
 const clothingActivity = document.getElementById("clothingActivity");
 const activityPosture = document.getElementById("activityPosture");
+const startRecordingBtn = document.getElementById("startRecording");
+const stopRecordingBtn = document.getElementById("stopRecording");
+const playRecordingBtn = document.getElementById("playRecording");
+const audioPlayback = document.getElementById("audioPlayback");
+const voiceNotes = document.getElementById("voiceNotes");
 const moodButtons = document.querySelectorAll(".mood-btn");
 const moodInput = document.getElementById("mood");
+
+let mediaRecorder = null;
+let recordedChunks = [];
+let currentAudioBlob = null;
+let micPermissionGranted = false;
 const chatWindow = document.getElementById("chatWindow");
 const chatMessages = document.getElementById("chatMessages");
 const chatForm = document.getElementById("chatForm");
@@ -126,6 +136,11 @@ function initializeApp() {
   chatCloseWindowBtn.addEventListener("click", closeChat);
   chatForm.addEventListener("submit", handleChatSubmit);
 
+  // Voice recording controls
+  startRecordingBtn.addEventListener("click", startVoiceRecording);
+  stopRecordingBtn.addEventListener("click", stopVoiceRecording);
+  playRecordingBtn.addEventListener("click", playVoiceRecording);
+
   // Load localStorage state if any
   const savedCLO = localStorage.getItem("cloLevel");
   if (savedCLO) {
@@ -153,6 +168,7 @@ function initializeApp() {
   satisfactionSliders.forEach(updateSatisfactionDisplay);
   wellbeingSliders.forEach(updateWellbeingDisplay);
   updateProgressBar();
+  checkMicPermission();
 }
 
 // ====================
@@ -435,6 +451,8 @@ async function handleFormSubmit(e) {
     clo_level: parseFloat(document.getElementById("cloLevel").value) || null,
     clothing_activity: txt("clothingActivity") || null,
     activity_posture: txt("activityPosture") || null,
+    voice_notes: txt("voiceNotes") || null,
+    voice_recording_url: null,
 
     // Symptoms
     symptom_wheezing: checked("symptom01"),
@@ -475,6 +493,25 @@ async function handleFormSubmit(e) {
     wrist_temp_delta: parseFloat(document.getElementById("wristTempDelta").value) || null,
     sleep_hours: parseFloat(document.getElementById("sleepHours").value) || null,
   };
+
+  // Upload audio to Supabase Storage (optional)
+  if (currentAudioBlob) {
+    const fileName = `voice-${sessionId}-${Date.now()}.webm`;
+    const storagePath = `voice-feedback/${fileName}`;
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("voice-feedback")
+      .upload(storagePath, currentAudioBlob, { upsert: true });
+
+    if (uploadError) {
+      console.warn("Voice upload failed:", uploadError);
+    } else {
+      const { data: publicData } = supabase.storage
+        .from("voice-feedback")
+        .getPublicUrl(storagePath);
+      payload.voice_recording_url = publicData.publicUrl;
+    }
+  }
 
   // Insert into Supabase
   const { data, error } = await supabase
@@ -528,6 +565,76 @@ function closeChat() {
   chatWindow.style.display = "none";
   chatToggleBtn.style.display = "flex";
   isChatMinimized = true;
+}
+
+// ====================
+// Voice Recording
+// ====================
+async function startVoiceRecording() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert("Voice recording not supported in this browser.");
+    return;
+  }
+
+  if (!micPermissionGranted) {
+    alert("Microphone permission is required to record voice feedback. Please allow microphone access when prompted.");
+    return;
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    recordedChunks = [];
+
+    mediaRecorder.addEventListener("dataavailable", (event) => {
+      if (event.data.size > 0) recordedChunks.push(event.data);
+    });
+
+    mediaRecorder.addEventListener("stop", () => {
+      currentAudioBlob = new Blob(recordedChunks, { type: "audio/webm" });
+      const audioUrl = URL.createObjectURL(currentAudioBlob);
+      audioPlayback.src = audioUrl;
+      audioPlayback.style.display = "block";
+      playRecordingBtn.disabled = false;
+      stopRecordingBtn.disabled = true;
+      startRecordingBtn.disabled = false;
+    });
+
+    mediaRecorder.start();
+    startRecordingBtn.disabled = true;
+    stopRecordingBtn.disabled = false;
+    playRecordingBtn.disabled = true;
+  } catch (err) {
+    console.error("Failed to start recording:", err);
+    alert("Could not start audio recording. Please check microphone permissions.");
+    micPermissionGranted = false;
+    updateVoiceUI();
+  }
+}
+
+function stopVoiceRecording() {
+  if (mediaRecorder && mediaRecorder.state === "recording") {
+    mediaRecorder.stop();
+  }
+}
+
+function playVoiceRecording() {
+  if (currentAudioBlob) {
+    audioPlayback.play();
+  }
+}
+
+function updateVoiceUI() {
+  const permissionStatus = document.getElementById("micPermissionStatus");
+  if (permissionStatus) {
+    if (micPermissionGranted) {
+      permissionStatus.textContent = "✅ Microphone access granted";
+      permissionStatus.className = "permission-granted";
+    } else {
+      permissionStatus.textContent = "❌ Microphone permission denied - please allow access to record voice feedback";
+      permissionStatus.className = "permission-denied";
+    }
+  }
 }
 
 function handleChatSubmit(e) {
@@ -603,4 +710,24 @@ function generateUUID() {
     const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+}
+
+async function checkMicPermission() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    console.warn("Media devices not supported");
+    micPermissionGranted = false;
+    updateVoiceUI();
+    return;
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    // Stop the stream immediately after getting permission
+    stream.getTracks().forEach(track => track.stop());
+    micPermissionGranted = true;
+  } catch (err) {
+    console.warn("Microphone permission denied:", err);
+    micPermissionGranted = false;
+  }
+  updateVoiceUI();
 }
