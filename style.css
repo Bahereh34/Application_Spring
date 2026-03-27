@@ -1,0 +1,1042 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: #fafbfc;
+  color: #1f2937;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- Main Survey Section ---------- */
+.survey-main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  padding-bottom: 120px;
+}
+
+@media (max-width: 768px) {
+  .survey-main {
+    padding: 16px;
+  }
+}
+
+/* ---------- Hero Section ---------- */
+.hero-section {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 24px;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  padding: 24px;
+}
+
+.hero-overlay .survey-header {
+  color: white;
+}
+
+.hero-overlay .survey-header h1 {
+  color: white;
+  font-size: 2rem;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero-overlay .subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  font-size: 1rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 200px;
+  }
+  
+  .hero-overlay .survey-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .hero-overlay .subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+/* ---------- Progress Section ---------- */
+.progress-section {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #FF9500, #C85A99);
+  border-radius: 3px;
+  width: 10%;
+  transition: width 0.4s ease;
+}
+
+.section-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.section-counter {
+  font-weight: 600;
+  color: #FF9500;
+}
+
+.section-name {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+/* ---------- Survey Grid Layout ---------- */
+.survey-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.form-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.form-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-card h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.4rem;
+  color: #1f2937;
+}
+
+.form-card label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-card input:not([type="hidden"]),
+.form-card select {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.form-card input:focus,
+.form-card select:focus {
+  outline: none;
+  border-color: #FF9500;
+  box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1);
+}
+
+.form-card textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  resize: vertical;
+}
+
+.form-card textarea:focus {
+  outline: none;
+  border-color: #FF9500;
+  box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.checkbox-row input {
+  width: auto;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.check-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* ---------- Symptom Groups ---------- */
+.symptom-group {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.04) 0%, rgba(200, 90, 153, 0.04) 100%);
+  border-left: 4px solid #FF9500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.symptom-group:hover {
+  background: linear-gradient(135deg, rgba(255, 149, 0, 0.08) 0%, rgba(200, 90, 153, 0.08) 100%);
+  border-left-color: #C85A99;
+}
+
+.symptom-group-title {
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.symptoms-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.symptom-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.symptom-item:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.symptom-item input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #FF9500;
+  flex-shrink: 0;
+}
+
+.symptom-item input:checked {
+  accent-color: #C85A99;
+}
+
+@media (max-width: 768px) {
+  .symptoms-list {
+    grid-template-columns: 1fr;
+  }
+
+  .symptom-group {
+    margin-bottom: 16px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .survey-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .form-card {
+    padding: 20px;
+  }
+  
+  .form-card h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ---------- Thermal Comfort ---------- */
+.thermal-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #1e40af 0%, #06b6d4 43%, #fbbf24 57%, #dc2626 100%);
+  border-radius: 5px;
+  outline: none;
+  margin: 12px 0;
+  cursor: pointer;
+}
+
+.thermal-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.thermal-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.thermal-indicator {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.thermal-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.thermal-scale .label.neutral {
+  color: #d97706;
+}
+
+.thermal-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.thermal-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  width: 50px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background: white;
+  border: 2px solid #e5e7eb;
+}
+
+.thermal-label {
+  font-weight: 600;
+  color: #374151;
+  flex: 1;
+}
+
+/* ---------- Glare Comfort ---------- */
+.glare-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #10b981 0%, #fbbf24 50%, #f87171 100%);
+  border-radius: 5px;
+  outline: none;
+  margin: 12px 0;
+  cursor: pointer;
+}
+
+.glare-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.glare-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.glare-indicator {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.glare-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.glare-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.glare-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  width: 50px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background: white;
+  border: 2px solid #e5e7eb;
+}
+
+.glare-label {
+  font-weight: 600;
+  color: #374151;
+  flex: 1;
+}
+
+/* ---------- Mood Buttons ---------- */
+.mood-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.mood-btn {
+  padding: 14px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  background: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.mood-btn:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.mood-btn.selected {
+  border: 2px solid white;
+  color: white;
+  font-weight: 700;
+}
+
+.mood-btn[data-mood="Happy"].selected {
+  background: linear-gradient(135deg, #FF9500 0%, #FFA822 100%);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.mood-btn[data-mood="Content/Neutral"].selected {
+  background: linear-gradient(135deg, #C85A99 0%, #D97BAE 100%);
+  box-shadow: 0 4px 12px rgba(200, 90, 153, 0.3);
+}
+
+.mood-btn[data-mood="Tired"].selected {
+  background: linear-gradient(135deg, #FF9500 0%, #FFB84D 100%);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.mood-btn[data-mood="Stressed/Anxious"].selected {
+  background: linear-gradient(135deg, #C85A99 0%, #E8A4C4 100%);
+  box-shadow: 0 4px 12px rgba(200, 90, 153, 0.3);
+}
+
+.mood-btn[data-mood="Irritated"].selected {
+  background: linear-gradient(135deg, #FF9500 0%, #FFA822 100%);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.mood-btn[data-mood="Other"].selected {
+  background: linear-gradient(135deg, #C85A99 0%, #E8A4C4 100%);
+  box-shadow: 0 4px 12px rgba(200, 90, 153, 0.3);
+}
+
+/* ---------- Progress Sliders ---------- */
+.progress-container {
+  position: relative;
+  margin: 16px 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #ef4444 0%, #f97316 25%, #fbbf24 50%, #10b981 75%, #059669 100%);
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  flex: 1;
+}
+
+.progress-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.progress-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.progress-emoji {
+  font-size: 1.8rem;
+  min-width: 45px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.progress-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  margin-top: 8px;
+}
+
+.progress-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  width: 50px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background: white;
+  border: 2px solid #e5e7eb;
+}
+
+.progress-label {
+  font-weight: 600;
+  color: #374151;
+  flex: 1;
+}
+
+/* ---------- KSS Slider ---------- */
+.kss-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #0f172a 0%, #1e1b4b 25%, #7c3aed 50%, #fbbf24 75%, #fef3c7 100%);
+  border-radius: 5px;
+  outline: none;
+  margin: 12px 0;
+  cursor: pointer;
+  flex: 1;
+}
+
+.kss-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.kss-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #374151;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ---------- Satisfaction Grid ---------- */
+.satisfaction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.sat-item {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.sat-item label {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.sat-item input {
+  width: 100%;
+}
+
+.sat-value {
+  display: block;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #FF9500;
+}
+
+/* ---------- Well-being Grid ---------- */
+.wellbeing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.wb-item {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.wb-item label {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.wb-item input {
+  width: 100%;
+}
+
+.wb-value {
+  display: block;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #C85A99;
+}
+
+/* ---------- Form Status & Submit ---------- */
+.form-status {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+.submit-container {
+  max-width: 1400px;
+  margin: 40px auto 0;
+  padding: 0 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.survey-submit {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #FF9500 0%, #E67E22 100%);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.3);
+}
+
+.survey-submit:hover {
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.survey-submit:active {
+  transform: translateY(0);
+}
+
+.survey-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Floating Chat Window ---------- */
+.chat-window {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 360px;
+  height: 450px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  animation: slideUp 0.4s ease;
+  border: 1px solid #e5e7eb;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-window.minimized {
+  height: 50px;
+}
+
+.chat-window-header {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #FF9500 0%, #C85A99 100%);
+  border-radius: 14px 14px 0 0;
+  color: white;
+}
+
+.chat-window-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.chat-window-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.chat-minimize-btn,
+.chat-close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.chat-minimize-btn:hover,
+.chat-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f8fafc;
+}
+
+.chat-window.minimized .chat-messages {
+  display: none;
+}
+
+.chat-window.minimized .chat-input-area {
+  display: none;
+}
+
+.message {
+  display: flex;
+  animation: messageIn 0.3s ease;
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.assistant {
+  justify-content: flex-start;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  line-height: 1.4;
+  font-size: 0.9rem;
+  word-wrap: break-word;
+}
+
+.message.assistant .bubble {
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+.message.user .bubble {
+  background: #FF9500;
+  color: white;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 0 0 14px 14px;
+}
+
+.chat-input-area input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.chat-input-area input:focus {
+  outline: none;
+  border-color: #FF9500;
+  box-shadow: 0 0 0 2px rgba(255, 149, 0, 0.1);
+}
+
+.chat-input-area button {
+  padding: 10px 16px;
+  background: #FF9500;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.chat-input-area button:hover {
+  background: #E67E22;
+}
+
+/* ---------- Chat Toggle Button ---------- */
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF9500 0%, #C85A99 100%);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: slideUp 0.4s ease;
+}
+
+.chat-toggle-btn.visible {
+  display: flex;
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(255, 149, 0, 0.5);
+}
+
+.chat-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Responsive Design ---------- */
+@media (max-width: 768px) {
+  .survey-main {
+    padding-bottom: 120px;
+  }
+
+  .survey-grid {
+    gap: 16px;
+  }
+
+  .chat-window {
+    width: 100%;
+    height: 350px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .chat-window-header {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .chat-input-area {
+    border-radius: 0 0 14px 14px;
+  }
+
+  .submit-container {
+    padding: 0 12px;
+  }
+
+  .survey-submit {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+
+  .satisfaction-grid,
+  .wellbeing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .form-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .mood-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .satisfaction-grid,
+  .wellbeing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .survey-submit {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}

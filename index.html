@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comfort Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Main Survey Section -->
+    <main class="survey-main">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <img src="clo_images/3d.png" alt="Office location map" class="hero-image">
+        <div class="hero-overlay">
+          <div class="survey-header">
+            <h1>Indoor Comfort Portal</h1>
+            <p class="subtitle">Share your comfort experience and talk to the building.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="progress-section">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="form-status">
+          <span id="formStatus">0 of 10 sections completed</span>
+        </div>
+      </div>
+
+      <!-- Form Grid Container -->
+      <form id="surveyForm" class="survey-grid">
+        
+        <!-- Section 1: Location -->
+        <div class="form-card">
+          <h3>📍 Where are you?</h3>
+          <label for="room">Room</label>
+          <input type="text" id="room" placeholder="e.g. ARCH 001" />
+
+          <label for="userId">User ID (optional)</label>
+          <input type="text" id="userId" placeholder="optional" />
+
+          <label for="gridNumber">Seat / Grid Number</label>
+          <input type="number" id="gridNumber" min="1" max="120" value="1" />
+        </div>
+
+        <!-- Section 2: Thermal Comfort -->
+        <div class="form-card">
+          <h3>🌡️ Thermal Comfort</h3>
+          <label for="thermalSensation">Thermal sensation (-3 to +3)</label>
+          <div class="thermal-indicator">
+            <div class="thermal-scale">
+              <span class="label">Cold</span>
+              <span class="label neutral">Neutral</span>
+              <span class="label">Hot</span>
+            </div>
+          </div>
+          <input type="range" id="thermalSensation" min="-3" max="3" value="0" step="1" class="thermal-slider" />
+          <div class="thermal-display">
+            <div class="thermal-value" id="thermalValue">0</div>
+            <div class="thermal-label" id="thermalLabel">Neutral</div>
+          </div>
+
+          <label for="thermalPreference">Thermal preference</label>
+          <select id="thermalPreference">
+            <option>No change</option>
+            <option>Warmer</option>
+            <option>Cooler</option>
+          </select>
+
+          <label for="airMovement">Air movement feels</label>
+          <select id="airMovement">
+            <option>Still</option>
+            <option>Slight breeze</option>
+            <option>Drafty</option>
+          </select>
+
+          <label for="thermalNotes">Thermal notes</label>
+          <textarea id="thermalNotes" rows="2" placeholder="e.g. warm near window; stuffy air"></textarea>
+        </div>
+
+        <!-- Section 3: Visual Comfort -->
+        <div class="form-card">
+          <h3>💡 Visual Comfort</h3>
+          <label for="brightness">Brightness</label>
+          <select id="brightness">
+            <option>Too dim</option>
+            <option selected>OK</option>
+            <option>Too bright</option>
+          </select>
+
+          <label for="glareRating">Glare discomfort (1–5)</label>
+          <div class="glare-indicator">
+            <div class="glare-scale">
+              <span class="label">None</span>
+              <span class="label">Moderate</span>
+              <span class="label">Severe</span>
+            </div>
+          </div>
+          <input type="range" id="glareRating" min="1" max="5" value="2" step="1" class="glare-slider" />
+          <div class="glare-display">
+            <div class="glare-value" id="glareValue">2</div>
+            <div class="glare-label" id="glareLabel">Moderate</div>
+          </div>
+
+          <label class="checkbox-row">
+            <input type="checkbox" id="taskAffected" />
+            Glare / brightness is affecting my task
+          </label>
+
+          <label for="visualNotes">Visual notes</label>
+          <textarea id="visualNotes" rows="2" placeholder="e.g. glare on screen"></textarea>
+        </div>
+
+        <!-- Section 4: Mood -->
+        <div class="form-card">
+          <h3>😊 How are you feeling?</h3>
+          <label>Mood</label>
+          <div class="mood-buttons">
+            <button type="button" class="mood-btn" data-mood="Happy" title="Happy">😊 Happy</button>
+            <button type="button" class="mood-btn selected" data-mood="Content/Neutral" title="Content/Neutral">😐 Neutral</button>
+            <button type="button" class="mood-btn" data-mood="Tired" title="Tired">😴 Tired</button>
+            <button type="button" class="mood-btn" data-mood="Stressed/Anxious" title="Stressed/Anxious">😰 Stressed</button>
+            <button type="button" class="mood-btn" data-mood="Irritated" title="Irritated">😠 Irritated</button>
+            <button type="button" class="mood-btn" data-mood="Other" title="Other">❓ Other</button>
+          </div>
+          <input type="hidden" id="mood" value="Content/Neutral" />
+
+          <label for="moodOther">If other, specify</label>
+          <input type="text" id="moodOther" placeholder="optional" />
+
+          <label for="feelingNotes">Feeling notes</label>
+          <textarea id="feelingNotes" rows="2"></textarea>
+        </div>
+
+        <!-- Section 5: Performance -->
+        <div class="form-card">
+          <h3>⚡ Your Performance</h3>
+          <label for="concentration">Concentration (0–10)</label>
+          <div class="progress-container">
+            <input type="range" id="concentration" min="0" max="10" value="5" step="1" class="progress-slider" />
+            <div class="progress-emoji" id="concentrationEmoji">😐</div>
+          </div>
+          <div class="progress-display">
+            <div class="progress-value" id="concentrationValue">5</div>
+            <div class="progress-label" id="concentrationLabel">Moderate</div>
+          </div>
+
+          <label for="productivity">Productivity (0–10)</label>
+          <div class="progress-container">
+            <input type="range" id="productivity" min="0" max="10" value="5" step="1" class="progress-slider" />
+            <div class="progress-emoji" id="productivityEmoji">😐</div>
+          </div>
+          <div class="progress-display">
+            <div class="progress-value" id="productivityValue">5</div>
+            <div class="progress-label" id="productivityLabel">Moderate</div>
+          </div>
+        </div>
+
+        <!-- Section 6: Energy Level -->
+        <div class="form-card">
+          <h3>🔋 Your Energy Level (KSS)</h3>
+          <label for="kssScore">KSS score (1–9)</label>
+          <div class="progress-container">
+            <input type="range" id="kssScore" min="1" max="9" value="3" step="1" class="kss-slider" />
+            <div class="progress-emoji" id="kssEmoji">😃</div>
+          </div>
+          <div class="progress-display">
+            <div class="progress-value" id="kssValue">3</div>
+            <div class="progress-label" id="kssLabel">Alert</div>
+          </div>
+        </div>
+
+        <!-- Section 7: Symptoms -->
+        <div class="form-card full-width">
+          <h3>🏥 Any Symptoms?</h3>
+
+          <!-- Respiratory Group -->
+          <div class="symptom-group">
+            <h4 class="symptom-group-title">🫁 Respiratory</h4>
+            <div class="symptoms-list">
+              <label class="symptom-item"><input type="checkbox" id="symptom01"> Wheezing or whistling in chest</label>
+              <label class="symptom-item"><input type="checkbox" id="symptom02"> Short of breath while working</label>
+              <label class="symptom-item"><input type="checkbox" id="symptom03"> Coughed during time here</label>
+              <label class="symptom-item"><input type="checkbox" id="symptom04"> Blocked or runny nose</label>
+              <label class="symptom-item"><input type="checkbox" id="symptom06"> Throat dry or irritated</label>
+            </div>
+          </div>
+
+          <!-- Eyes & Sensory Group -->
+          <div class="symptom-group">
+            <h4 class="symptom-group-title">👁️ Eyes & Sensory</h4>
+            <div class="symptoms-list">
+              <label class="symptom-item"><input type="checkbox" id="symptom05"> Itchy or watery eyes</label>
+              <label class="symptom-item"><input type="checkbox" id="symptom07"> Musty or damp smell noticed</label>
+            </div>
+          </div>
+
+          <!-- Environmental & Comfort Group -->
+          <div class="symptom-group">
+            <h4 class="symptom-group-title">⚙️ Environmental & Well-Being</h4>
+            <div class="symptoms-list">
+              <label class="symptom-item"><input type="checkbox" id="symptom08"> Headache in this space</label>
+              <label class="symptom-item"><input type="checkbox" id="symptom09"> Felt unusually warm or cold</label>
+              <label class="symptom-item"><input type="checkbox" id="symptom10"> Mood or concentration affected</label>
+            </div>
+          </div>
+
+          <label for="symptomNotes" style="margin-top: 20px;">Symptom details</label>
+          <textarea id="symptomNotes" rows="2" placeholder="Describe any additional symptoms or concerns"></textarea>
+        </div>
+
+        <!-- Section 8: Satisfaction -->
+        <div class="form-card full-width">
+          <h3>⭐ Your Satisfaction (1–5)</h3>
+          <div class="satisfaction-grid">
+            <div class="sat-item">
+              <label for="satOverall">Overall environment</label>
+              <input type="range" id="satOverall" min="1" max="5" value="3" step="1">
+              <span class="sat-value" id="satOverallVal">3</span>
+            </div>
+            <div class="sat-item">
+              <label for="satPrivacy">Privacy</label>
+              <input type="range" id="satPrivacy" min="1" max="5" value="3" step="1">
+              <span class="sat-value" id="satPrivacyVal">3</span>
+            </div>
+            <div class="sat-item">
+              <label for="satLayout">Layout & organization</label>
+              <input type="range" id="satLayout" min="1" max="5" value="3" step="1">
+              <span class="sat-value" id="satLayoutVal">3</span>
+            </div>
+            <div class="sat-item">
+              <label for="satAppearance">Color / decoration</label>
+              <input type="range" id="satAppearance" min="1" max="5" value="3" step="1">
+              <span class="sat-value" id="satAppearanceVal">3</span>
+            </div>
+            <div class="sat-item">
+              <label for="satAirmove">Air movement</label>
+              <input type="range" id="satAirmove" min="1" max="5" value="3" step="1">
+              <span class="sat-value" id="satAirmoveVal">3</span>
+            </div>
+            <div class="sat-item">
+              <label for="satClean">Cleanliness</label>
+              <input type="range" id="satClean" min="1" max="5" value="3" step="1">
+              <span class="sat-value" id="satCleanVal">3</span>
+            </div>
+            <div class="sat-item">
+              <label for="satView">Outdoor view</label>
+              <input type="range" id="satView" min="1" max="5" value="3" step="1">
+              <span class="sat-value" id="satViewVal">3</span>
+            </div>
+          </div>
+
+          <label for="satisfactionNotes">Satisfaction notes</label>
+          <textarea id="satisfactionNotes" rows="2"></textarea>
+        </div>
+
+        <!-- Section 9: Well-Being -->
+        <div class="form-card full-width">
+          <h3>💚 Your Well-Being (WHO-5)</h3>
+          <div class="wellbeing-grid">
+            <div class="wb-item">
+              <label for="who1">Cheerful & in good spirits</label>
+              <input type="range" id="who1" min="0" max="5" value="3" step="1">
+              <span class="wb-value" id="who1Val">3</span>
+            </div>
+            <div class="wb-item">
+              <label for="who2">Calm and relaxed</label>
+              <input type="range" id="who2" min="0" max="5" value="3" step="1">
+              <span class="wb-value" id="who2Val">3</span>
+            </div>
+            <div class="wb-item">
+              <label for="who3">Active and vigorous</label>
+              <input type="range" id="who3" min="0" max="5" value="3" step="1">
+              <span class="wb-value" id="who3Val">3</span>
+            </div>
+            <div class="wb-item">
+              <label for="who4">Woke up feeling fresh</label>
+              <input type="range" id="who4" min="0" max="5" value="3" step="1">
+              <span class="wb-value" id="who4Val">3</span>
+            </div>
+            <div class="wb-item">
+              <label for="who5">Life filled with interesting things</label>
+              <input type="range" id="who5" min="0" max="5" value="3" step="1">
+              <span class="wb-value" id="who5Val">3</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 10: Wearable Data -->
+        <div class="form-card full-width">
+          <h3>⌚ Wearable Data (Optional)</h3>
+
+          <label class="checkbox-row">
+            <input type="checkbox" id="usesSmartwatch" />
+            I am wearing a smartwatch / fitness tracker
+          </label>
+
+          <label for="watchBrand">Watch brand</label>
+          <select id="watchBrand">
+            <option>Apple Watch</option>
+            <option>Garmin</option>
+            <option>Fitbit</option>
+            <option>Samsung Galaxy Watch</option>
+            <option>Oura</option>
+            <option>Other</option>
+          </select>
+
+          <label for="heartRate">Heart rate (bpm)</label>
+          <input type="number" id="heartRate" min="30" max="220" value="75" />
+
+          <label for="hrvMs">HRV (ms)</label>
+          <input type="number" id="hrvMs" min="0" max="300" value="50" step="1" />
+
+          <label for="stressLevel">Stress level (0–100)</label>
+          <input type="range" id="stressLevel" min="0" max="100" value="25" step="1" />
+
+          <label for="wristTempDelta">Wrist temperature change (°C)</label>
+          <input type="number" id="wristTempDelta" min="-5" max="5" value="0" step="0.1" />
+
+          <label for="sleepHours">Sleep last night (hours)</label>
+          <input type="range" id="sleepHours" min="0" max="12" value="7" step="0.5" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="submit-container">
+          <button type="submit" class="survey-submit">Submit Survey</button>
+        </div>
+      </form>
+    </main>
+
+    <!-- Floating Chat Window at Bottom -->
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-window-header">
+        <h3>💬 Comfort Chat</h3>
+        <div class="chat-window-controls">
+          <button class="chat-minimize-btn" id="chatMinimizeBtn" title="Minimize">−</button>
+          <button class="chat-close-btn" id="chatCloseWindowBtn" title="Close">×</button>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="message assistant">
+          <div class="bubble">
+            Hello! I'm your comfort assistant. How are you feeling in this space?
+          </div>
+        </div>
+      </div>
+
+      <form class="chat-input-area" id="chatForm">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Type your message here..."
+          autocomplete="off"
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
+    <!-- Chat Toggle Button (when minimized) -->
+    <button class="chat-toggle-btn" id="chatToggleBtn" title="Open Chat">💬</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
