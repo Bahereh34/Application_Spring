@@ -426,18 +426,19 @@
           <button type="submit" class="survey-submit">Submit Survey</button>
         </div>
 
-        <!-- Section 10: Voice Recording -->
+        <!-- Section 11: Voice Recording -->
         <div class="form-card">
           <h3>🎤 Voice Feedback (Optional)</h3>
           <p>Record a short audio message about your comfort experience.</p>
+          <div id="micPermissionStatus" class="permission-status">Checking microphone access...</div>
           <div class="voice-controls">
             <button type="button" id="startRecording" class="voice-btn">🎙️ Start Recording</button>
             <button type="button" id="stopRecording" class="voice-btn" disabled>⏹️ Stop Recording</button>
             <button type="button" id="playRecording" class="voice-btn" disabled>▶️ Play Recording</button>
           </div>
           <audio id="audioPlayback" controls style="display: none;"></audio>
-          <label for="voiceNotes">Voice notes (optional text alternative)</label>
-          <textarea id="voiceNotes" rows="2" placeholder="e.g. verbal feedback summary"></textarea>
+          <label for="voiceNotes" class="prominent-label">Voice notes (optional text alternative)</label>
+          <textarea id="voiceNotes" rows="3" placeholder="e.g. verbal feedback summary or if you prefer not to record audio"></textarea>
         </div>
       </form>
     </main>
