@@ -717,6 +717,85 @@ body {
   text-align: right;
 }
 
+/* ---------- Voice Recording Styles ---------- */
+.permission-status {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.permission-granted {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.permission-denied {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.voice-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.voice-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.voice-btn:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.voice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.voice-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.prominent-label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  display: block;
+}
+
+#voiceNotes {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+#voiceNotes:focus {
+  outline: none;
+  border-color: #FF9500;
+  box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1);
+}
+
 /* ---------- Well-being Grid ---------- */
 .wellbeing-grid {
   display: grid;
